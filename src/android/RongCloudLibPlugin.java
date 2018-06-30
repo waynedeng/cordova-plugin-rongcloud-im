@@ -13,6 +13,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.app.Activity;
+import android.widget.FrameLayout;
+import android.util.Log;
+import android.support.v4.app.JobIntentService;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,40 +61,66 @@ import io.rong.message.LocationMessage;
 import io.rong.message.RichContentMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
-import io.rong.push.RongPushInterface;
+import io.rong.push.PushService;
+import io.rong.imlib.ReConnectService;
+
 
 public class RongCloudLibPlugin extends CordovaPlugin {
     private final String TAG = "RongCloudLibPlugin";
 
     private boolean mInitialized;
     private Context mContext;
+    protected Activity appActivity;
+    protected FrameLayout webView;
+    protected FrameLayout appLayout;
+
     private RongIMClient mRongClient;
     private Gson mGson;
     private MessageListener mMessageListener;
-    private ExecutorService mThreadPool = Executors.newFixedThreadPool(1);
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
+        Log.d("rongcloud", "pluginInitialize...");
         mContext = cordova.getActivity().getApplicationContext();
         mGson = new Gson();
     }
 
+    // 核心方法
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        mThreadPool.execute(new Runnable() {
+        // mThreadPool.execute(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         Method method = null;
+        //         try {
+        //             method = RongCloudLibPlugin.class.getDeclaredMethod(action,
+        //                     JSONArray.class, CallbackContext.class);
+        //             method.invoke(RongCloudLibPlugin.this, args, callbackContext);
+        //         } catch (Exception e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+        
+        Log.d("rongcloud", action + " Called");
+
+        
+        cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-                Method method = null;
                 try {
-                    method = RongCloudLibPlugin.class.getDeclaredMethod(action,
+                    Method method = RongCloudLibPlugin.class.getDeclaredMethod(action,
                             JSONArray.class, CallbackContext.class);
                     method.invoke(RongCloudLibPlugin.this, args, callbackContext);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e("rongcloud", e.toString());
+                    // callbackContext.error("fail!");
                 }
+                // callbackContext.success();
             }
         });
+    
 
         return true;
     }
@@ -199,9 +229,11 @@ public class RongCloudLibPlugin extends CordovaPlugin {
 
     public void init(JSONArray args, CallbackContext callbackContext) {
         try {
+            final Context context = cordova.getActivity().getApplicationContext();
             String appkey = args.getString(0);
-            RongIMClient.init(mContext, appkey);
-            RongPushInterface.init(mContext, appkey);
+            Log.d("rongcloud", appkey);
+            RongIMClient.init(context, appkey);
+            // RongPushInterface.init(context, appkey);
             mRongClient = RongIMClient.getInstance();
             mInitialized = true;
             callModuleSuccess(callbackContext);
@@ -212,12 +244,14 @@ public class RongCloudLibPlugin extends CordovaPlugin {
 
     void connect(final JSONArray args, final CallbackContext callbackContext) {
         if(!mInitialized) {
+            Log.d("rongcloud", "mInitialized " + mInitialized);
             callModuleError(callbackContext, new RongException(ErrorCode.NOT_INIT));
             return;
         }
 
         try {
             String token = args.getString(0);
+            Log.d("rongcloud", token);
             RongIMClient.connect(token, new RongIMClient.ConnectCallback() {
                 @Override
                 public void onTokenIncorrect() {
@@ -231,6 +265,8 @@ public class RongCloudLibPlugin extends CordovaPlugin {
 
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
+                    Log.d("rongcloud", "--onError" + errorCode);
+                    // callbackContext.error("onError" + errorCode);
                     callModuleError(callbackContext, new RongException(errorCode.getValue()));
                 }
             });
@@ -1840,7 +1876,7 @@ public class RongCloudLibPlugin extends CordovaPlugin {
             callModuleError(context, new RongException(ErrorCode.NOT_CONNECTED));
             return;
         }
-        RongPushInterface.clearAllNotifications(mContext);
+        // RongPushInterface.clearAllNotifications(mContext);
         callModuleSuccess(context, null);
     }
 

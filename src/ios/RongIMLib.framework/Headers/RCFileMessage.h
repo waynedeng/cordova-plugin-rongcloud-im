@@ -1,4 +1,3 @@
-
 //
 //  RCFileMessage.h
 //  RongIMLib
@@ -10,29 +9,48 @@
 #import <RongIMLib/RongIMLib.h>
 
 /*!
- 发送文件消息的类型名
+ 文件消息的类型名
  */
-#define RCFileMessageTypeIdentifier @"RC:SFMsg"
+#define RCFileMessageTypeIdentifier @"RC:FileMsg"
 
-@interface RCFileMessage : RCMessageContent
+@interface RCFileMessage : RCMessageContent <NSCoding>
+
+/*!
+ 文件名
+ */
+@property(nonatomic, strong) NSString *name;
+
+/*!
+ 文件大小，单位为Byte
+ */
+@property(nonatomic, assign) long long size;
+
+/*!
+ 文件类型
+ */
+@property(nonatomic, strong) NSString *type;
+
+/*!
+ 文件的网络地址
+ */
+@property(nonatomic, strong) NSString *fileUrl;
 
 /*!
  文件的本地路径
  */
-@property(nonatomic, strong) NSString *filePath;
+@property(nonatomic, strong) NSString *localPath;
 
 /*!
- 发送文件消息的附加信息
+ 附加信息
  */
 @property(nonatomic, strong) NSString *extra;
 
 /*!
- 初始化发送文件消息
- 
- @param filePath 文件的本地路径
- @return         发送文件消息对象
+ 初始化文件消息
+
+ @param localPath 文件的本地路径
+ @return          文件消息对象
  */
-+ (instancetype)messageWithFile:(NSString *)filePath;
++ (instancetype)messageWithFile:(NSString *)localPath;
 
 @end
-

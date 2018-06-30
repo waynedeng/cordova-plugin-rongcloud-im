@@ -150,6 +150,8 @@
               [oldValue isEqualToString:@"system"]) //小写的system是为了兼容历史遗留问题。
     {
         newConversationType = ConversationType_SYSTEM;
+    } else {
+        newConversationType = ConversationType_PRIVATE;
     }
     return newConversationType;
 }

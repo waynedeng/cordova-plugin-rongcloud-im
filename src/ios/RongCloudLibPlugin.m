@@ -19,11 +19,11 @@
 @implementation RongCloudLibPlugin
 
 - (instancetype)initWithWebView:(UIWebView*)theWebView {
-  if ([super respondsToSelector:@selector(initWithWebView:)]) {
-    self = [super initWithWebView:theWebView];
-  } else {
-    self = [super init];
-  }
+//   if ([super respondsToSelector:@selector(initWithWebView:)]) {
+//     self = [super initWithWebView:theWebView];
+//   } else {
+//     self = [super init];
+//   }
   
   if (self) {
     self.appEventReceiver = [[RongCloudAppEventReceiver alloc] init];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="io.rong.imlib" version="2.3.7"
+<plugin id="io.rong.imlib" version="2.9.1"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -9,7 +9,7 @@
     <keywords>RongCloud,IM</keywords>
     <license>Apache 2.0 License</license>
     <engines>
-      <engine name="cordova" version=">=3.0" />
+      <engine name="cordova" version=">=6.3.1" />
     </engines>
     <js-module name="RongCloudLibPlugin" src="www/RongCloudLibPlugin.js">
       <clobbers target="RongCloudLibPlugin"/>
@@ -21,12 +21,14 @@
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="RongCloudLibPlugin">
         <param name="android-package" value="io.rong.cordova.RongCloudLibPlugin"/>
+        <param name="onload" value="true" />
       </feature>
     </config-file>
-
+    <framework src="com.android.support:support-v4:+" />
     <config-file target="AndroidManifest.xml" parent="/manifest">
       <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
       <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
       <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
       <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
       <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -87,17 +89,31 @@
             </intent-filter>
         </receiver>
 
-      <meta-data
-        android:name="RONG_CLOUD_APP_KEY"
-        android:value="z3v5yqkbv8v30" />
+      <meta-data android:name="RONG_CLOUD_APP_KEY" android:value="xxxxx" />
     </config-file>
 
-    <source-file src="src/android/RongCloudLib.jar" target-dir="libs"/>
+    <source-file src="src/android/Rong_IMLib.jar" target-dir="libs"/>
     <source-file src="src/android/gson-2.2.4.jar" target-dir="libs"/>
     <source-file src="src/android/armeabi/libRongIMLib.so" target-dir="libs/armeabi"/>
     <source-file src="src/android/armeabi-v7a/libRongIMLib.so" target-dir="libs/armeabi-v7a"/>
     <source-file src="src/android/arm64-v8a/libRongIMLib.so" target-dir="libs/arm64-v8a"/>
     <source-file src="src/android/x86/libRongIMLib.so" target-dir="libs/x86"/>
+    
+    <source-file src="src/android/armeabi/libpush.so" target-dir="libs/armeabi"/>
+    <source-file src="src/android/armeabi-v7a/libpush.so" target-dir="libs/armeabi-v7a"/>
+    <source-file src="src/android/arm64-v8a/libpush.so" target-dir="libs/arm64-v8a"/>
+    <source-file src="src/android/x86/libpush.so" target-dir="libs/x86"/>
+
+    <source-file src="src/android/armeabi/libsqlite.so" target-dir="libs/armeabi"/>
+    <source-file src="src/android/armeabi-v7a/libsqlite.so" target-dir="libs/armeabi-v7a"/>
+    <source-file src="src/android/arm64-v8a/libsqlite.so" target-dir="libs/arm64-v8a"/>
+    <source-file src="src/android/x86/libsqlite.so" target-dir="libs/x86"/>
+
+    <source-file src="src/android/armeabi/push_daemon" target-dir="libs/armeabi"/>
+    <source-file src="src/android/armeabi-v7a/push_daemon" target-dir="libs/armeabi-v7a"/>
+    <source-file src="src/android/arm64-v8a/push_daemon" target-dir="libs/arm64-v8a"/>
+    <source-file src="src/android/x86/push_daemon" target-dir="libs/x86"/>
+
     <source-file src="src/android/RongCloudLibPlugin.java" target-dir="src/io/rong/cordova"/>
     <source-file src="src/android/common/ErrorCode.java" target-dir="src/io/rong/common"/>
     <source-file src="src/android/common/RongErrorResult.java" target-dir="src/io/rong/common"/>
@@ -122,15 +138,14 @@
     <source-file src="src/android/common/translation/TranslatedRichContentMessage.java" target-dir="src/io/rong/common/translation"/>
     <source-file src="src/android/common/translation/TranslatedTextMessage.java" target-dir="src/io/rong/common/translation"/>
     <source-file src="src/android/common/translation/TranslatedVoiceMessage.java" target-dir="src/io/rong/common/translation"/>
-    <source-file src="src/android/res/values/rc_notification_string.xml" target-dir="res/values"/>
     <source-file src="src/android/res/values/rc_configuration.xml" target-dir="res/values"/>
-    <source-file src="src/android/res/values-en/rc_notification_string.xml" target-dir="res/values-en"/>
   </platform>
 
   <platform name="ios">
       <config-file target="config.xml" parent="/*">
           <feature name="RongCloudLibPlugin">
               <param name="ios-package" value="RongCloudLibPlugin"/>
+              <param name="onload" value="true" />
           </feature>
       </config-file>
       <header-file src="src/ios/RongCloudAppEventReceiver.h" target-dir="src/ios" />

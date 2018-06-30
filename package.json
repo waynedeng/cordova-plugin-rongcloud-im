@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-rongcloud-im",
-  "version": "2.3.9",
+  "version": "2.9.1",
   "description": "Cordova RongCloud IMLib Plugin",
   "cordova": {
     "id": "cordova-plugin-rongcloud-im",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rongcloud/cordova-plugin-rongcloud-im.git"
+    "url": "git+https://github.com/waynedeng/cordova-plugin-rongcloud-im.git"
   },
   "keywords": [
     "RongCloud",

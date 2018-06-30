@@ -6,10 +6,10 @@
 //  Copyright © 2016年 RongCloud. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface RCCustomerServiceGroupItem : UITableViewCell
-@property (nonatomic, strong)NSString *groupId;
-@property (nonatomic, strong)NSString *name;
-@property (nonatomic, assign)BOOL online;
+@interface RCCustomerServiceGroupItem : NSObject
+@property(nonatomic, strong) NSString *groupId;
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, assign) BOOL online;
 @end
