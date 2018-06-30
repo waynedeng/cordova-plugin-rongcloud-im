@@ -47,7 +47,7 @@
         android:name="io.rong.imlib.ipc.RongService"
         android:process=":ipc" >
       </service>
-      <service android:name="io.rong.imlib.ReConnectService" />
+      <service android:name="io.rong.imlib.ReConnectService" android:permission="android.permission.BIND_JOB_SERVICE"/>
 
       <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
       <!-- sdk 默认接收、处理消息。用户如果想要自己处理，可以替换成自己实现的 receiver -->
@@ -62,6 +62,7 @@
         <!--必选： SDK 核心功能-->
         <service
             android:name="io.rong.push.PushService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:process="io.rong.push">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
