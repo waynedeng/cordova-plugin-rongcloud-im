@@ -6,7 +6,8 @@
     "id": "cordova-plugin-rongcloud-im",
     "platforms": [
       "android",
-      "ios"
+      "ios",
+      "browser"
     ]
   },
   "repository": {

@@ -15,6 +15,16 @@
       <clobbers target="RongCloudLibPlugin"/>
     </js-module>
 
+    <!-- browser -->
+    <platform name="browser">
+        <js-module src="src/browser/RongIMLib-2.3.2.min.js" name="RongIMLib">
+            <clobbers target="RongIMLib" />
+        </js-module>
+        <js-module src="src/browser/RongCloudIM.js" name="RongCloudIM">
+            <runs />
+        </js-module>
+    </platform>
+
     <!-- android -->
     <platform name="android">
 
